@@ -1,13 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-   
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>Insert title here</title>
 </head>
+
+<sec:authentication property="principal.username" var="userid"/>
+<sec:authentication property="principal.channel" var="channel"/>
 <script>
 let file =null;
 function start(){
@@ -28,6 +32,9 @@ console.log(file);
 	<button onclick="start()">ss</button>
 	<button onclick="sendMessage()">send</button>
 	
+	<div id="message">
+	</div>
+	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 	  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -37,10 +44,10 @@ console.log(file);
 let sock = new SockJS("/ws-stomp");
 let client = Stomp.over(sock);
 let roomId = '1';
-let userId = '${map.userId}';
+let userId = '${userid}';
 <c:choose>
-	<c:when test="${map.list ne null}">
-		let list = ${map.list};	
+	<c:when test="${channel ne null}">
+		let list = ${channel};	
 	</c:when>
 	<c:otherwise>
 		let list = null;
@@ -64,7 +71,7 @@ formData.append("file",file );
 				   'size'             : file.size,
 				   'type'             : file.type
 		} */
-		client.send("/pub/chat/message",{},JSON.stringify({roomId: roomId, sender:'userid',message:'hi hello'}));
+		client.send("/pub/chat/message",{},JSON.stringify({roomId: roomId, sender:userId ,message:'hi hello'}));
 		//client.send("/pub/chat/message",{},formData);
 	}
 
@@ -84,7 +91,11 @@ formData.append("file",file );
 					client.subscribe("/sub/chat/room/"+list[i] ,function (e){
 						//메세지가 도착했을 때 실행되는 메소드
 						console.log("!!!!!event", e);
-						e.body;
+						
+						let data = JSON.parse(e.body);
+						$("#message").append( "<div>" + data.sender + " : "+ data.message + "</div>");
+						
+						
 					
 						
 					});	
@@ -106,6 +117,5 @@ formData.append("file",file );
 	connect();
 	
 </script>
-	
 </body>
 </html>

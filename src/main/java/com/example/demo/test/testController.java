@@ -22,22 +22,34 @@ public class testController {
 	
 	
 	
-
+	
 	@RequestMapping("/")
+	public String loginpage() {
+		return "/member/loginpage";
+	}
+	
+	@RequestMapping("/main")
+	public String mainpage() {
+		return "/index";
+	}
+	
+	
+
+	@RequestMapping("/chattest")
 	public String test(Model model) {
 		
-		//map은 해당 사용자의 정보를 담을 VO(DTO) 역할
-		Map<String,Object> map = new HashMap<>();
-		
-		//list는 해당 사용자가 가입한 채널(채팅방)의 목록
-		List<String> list = new ArrayList<>();
-		list.add("1");
-		list.add("2");
-		list.add("3");
-		map.put("list", list);
-		map.put("userId","userid");
-		model.addAttribute("map",map);
-		return "index2";
+//		//map은 해당 사용자의 정보를 담을 VO(DTO) 역할
+//		Map<String,Object> map = new HashMap<>();
+//		
+//		//list는 해당 사용자가 가입한 채널(채팅방)의 목록
+//		List<String> list = new ArrayList<>();
+//		list.add("1");
+//		list.add("2");
+//		list.add("3");
+//		map.put("list", list);
+//		map.put("userId","userid");
+//		model.addAttribute("map",map);
+		return "chattest";
 	}
 	
 	@MessageMapping("/chat/message")

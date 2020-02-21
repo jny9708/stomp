@@ -25,6 +25,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-security'	
 	implementation 'org.webjars.bower:bootstrap:4.3.1'
     implementation 'org.webjars.bower:vue:2.5.16'
     implementation 'org.webjars.bower:axios:0.17.1'
@@ -33,7 +34,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
     implementation 'jstl:jstl:1.2'
-    implementation 'javax.servlet:jstl'
+    implementation 'javax.servlet:jstl'    
+    implementation 'org.springframework.security:spring-security-taglibs:5.2.1.RELEASE'
+    
+    
     implementation 'commons-fileupload:commons-fileupload:1.4'
     compile("org.springframework.boot:spring-boot-starter-jdbc:2.2.4.RELEASE")
     compile("mysql:mysql-connector-java:8.0.19")
@@ -47,8 +51,7 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
-	// https://mvnrepository.com/artifact/javax.servlet.jsp.jstl/jstl
-	compile group: 'javax.servlet.jsp.jstl', name: 'jstl', version: '1.2'
+	
 	
 }
 
